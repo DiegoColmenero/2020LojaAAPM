@@ -9,10 +9,8 @@ class Login extends Component {
     super();
     this.state = {
       cpf: '46938238804',
-      temValor: null,
       aluno: {},
-      
-
+      mensagemErro: ''
     };
   }
 
@@ -22,20 +20,25 @@ class Login extends Component {
 
 
   _realizarLogin = async () => {
-    if (this.state.cpf == '') {
-      this.setState({ temValor: 'Cpf não existente' })
+    if (this.state.cpf === '') {
+      this.setState({ mensagemErro: 'Insira o Cpf' })
+
     } else {
 
       await fetch('http://corujasdev-001-site1.etempurl.com/api/Aluno/' + this.state.cpf)
         .then(resposta => resposta.json())
-        .then(data => this.setState({ aluno: data }), this._irParaHome())
-        .catch(erro => console.warn(erro));
+        .then(data => {
+            data.status === 404 ? this.setState({ mensagemErro: 'Cpf não cadastrado no sistema'}) : 
+            this.setState({ aluno: data }),
+            this._irParaHome(data)
+        })
+        .catch(e => this.setState({ mensagemErro: 'Cpf não cadastrado no sistema' }));
     }
   }
 
 
-  _irParaHome = async () => {
-    if (this.state.aluno.status !== 404) {
+  _irParaHome = async (data) => {
+    if (data.status !== 404) {
 
       try {
         await AsyncStorage.setItem('@LojaAAPM:nomeAluno', this.state.aluno.nome);
@@ -52,7 +55,6 @@ class Login extends Component {
 
   render() {
     return (
-      // <ScrollView>
 
       <View style={styles.screen}>
         <Image source={logo} style={styles.logo} />
@@ -60,18 +62,20 @@ class Login extends Component {
 
           <Text style={styles.titulo}>LOGIN</Text>
           <TextInput
+            keyboardType={"numeric"}
             style={styles.label}
             placeholder="CPF"
             onChangeText={cpf => this.setState({ cpf })}
             value={this.state.cpf}
           />
+          <Text style={{ alignSelf: 'center', textAlign: 'center', color: 'red', fontWeight: 'bold', fontSize: 20 }}>{this.state.mensagemErro}</Text>
           <TouchableOpacity onPress={this._realizarLogin} style={styles.btnLogin}>
             <Text style={styles.nomeBtn}>ACESSAR</Text>
           </TouchableOpacity>
 
         </View>
       </View>
-      // </ScrollView>
+
     );
   }
 }
@@ -108,8 +112,16 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     width: '80%',
     alignSelf: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
 
+    elevation: 10,
   },
   screen: {
     height: '100%',
