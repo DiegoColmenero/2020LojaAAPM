@@ -85,6 +85,7 @@ class Home extends Component {
       })
         .then(resposta => resposta.json())
         .then(data => {
+          document.querySelectorAll('.o').values='';
         })
         .catch(erro => console.warn('AAAAA' + erro))
 
@@ -162,7 +163,7 @@ class Home extends Component {
 
                 <View style={styles.inputCadastrarPedido}>
                   <Text style={{ textAlign: 'center', marginTop: 20, fontSize: 20, color: '#000' }}>Insira informações adicionais (tamanho e estampa):</Text>
-                  <TextInput
+                  <TextInput className="o"
                     style={{
                       backgroundColor: '#e9e9e9',
                       borderBottomLeftRadius: 5,
@@ -207,7 +208,6 @@ class Home extends Component {
 
 const styles = StyleSheet.create({
   conteudoLista: {
-    marginTop: 20,
     backgroundColor: '#fa5d5d',
     width: '91%',  
     alignSelf: 'center',
@@ -215,7 +215,6 @@ const styles = StyleSheet.create({
     shadowOffset: {
       width: 0,
       height: 12,
-
     },
     shadowOpacity: 0.58,
     shadowRadius: 16.00,
@@ -224,6 +223,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
+    marginBottom: 75
   },
   imagemProduto: {
     height: 500,
@@ -267,7 +267,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fa5d5d',
     width: '90%',
     borderTopRightRadius: 5,
-    borderTopLeftRadius: 5
+    borderTopLeftRadius: 5,
+    padding: 20
   },
   itemProduto2: {
     marginTop: 10,

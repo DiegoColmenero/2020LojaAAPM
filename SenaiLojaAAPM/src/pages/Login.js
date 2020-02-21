@@ -8,7 +8,7 @@ class Login extends Component {
   constructor() {
     super();
     this.state = {
-      cpf: '46938238804',
+      cpf: '',
       aluno: {},
       mensagemErro: ''
     };
@@ -21,14 +21,14 @@ class Login extends Component {
 
   _realizarLogin = async () => {
     if (this.state.cpf === '') {
-      this.setState({ mensagemErro: 'Insira o Cpf' })
+      this.setState({ mensagemErro: 'Insira o seu CPF' })
 
     } else {
 
       await fetch('http://corujasdev-001-site1.etempurl.com/api/Aluno/' + this.state.cpf)
         .then(resposta => resposta.json())
         .then(data => {
-            data.status === 404 ? this.setState({ mensagemErro: 'Cpf não cadastrado no sistema'}) : 
+            data.status === 404 ? this.setState({ mensagemErro: 'CPF não cadastrado no sistema'}) : 
             this.setState({ aluno: data }),
             this._irParaHome(data)
         })
@@ -57,7 +57,9 @@ class Login extends Component {
     return (
 
       <View style={styles.screen}>
+        <ScrollView>
         <Image source={logo} style={styles.logo} />
+
         <View style={styles.loginArea}>
 
           <Text style={styles.titulo}>LOGIN</Text>
@@ -67,13 +69,14 @@ class Login extends Component {
             placeholder="CPF"
             onChangeText={cpf => this.setState({ cpf })}
             value={this.state.cpf}
-          />
+            />
           <Text style={{ alignSelf: 'center', textAlign: 'center', color: 'red', fontWeight: 'bold', fontSize: 20 }}>{this.state.mensagemErro}</Text>
           <TouchableOpacity onPress={this._realizarLogin} style={styles.btnLogin}>
             <Text style={styles.nomeBtn}>ACESSAR</Text>
           </TouchableOpacity>
 
         </View>
+            </ScrollView>
       </View>
 
     );
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
-    marginTop: 10,
+    marginTop: 5,
     alignSelf: 'center'
 
   },
@@ -138,7 +141,9 @@ const styles = StyleSheet.create({
   },
   logo: {
     marginTop: 15,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    height: 70,
+    width: 200
   }
 });
 

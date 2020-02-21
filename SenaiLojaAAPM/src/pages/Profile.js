@@ -30,6 +30,7 @@ class Profile extends Component {
     static navigationOptions = {
         tabBarIcon: () => (
             <Image style={({ width: 40, height: 40, tintColor: 'white' })} source={require('../img/icons8-user-30.png')} />)
+            
     };
 
     componentDidMount() {
@@ -60,9 +61,8 @@ class Profile extends Component {
     render() {
 
         return (
-            <View style={{ display:'flex', flexDirection: 'column', alignItems:'center', backgroundColor: 'e9e9e9' }}>
+            <View style={{ height:'100%' ,display:'flex', flexDirection: 'column',alignItems:'center', backgroundColor: '#e9e9e9' }}>
                 <View style={styles.botaoSair}>
-
                 <TouchableOpacity onPress={this._deslogar} >
                     <Image source={sair} style={({ width: 40, height: 40, tintColor: 'black' })}
                     />
@@ -70,11 +70,13 @@ class Profile extends Component {
                 </View>
                 <Image source={logo} style={{ alignSelf: 'center', marginTop: 10 }} />
                 <View style={styles.informacoesAluno}>
-                    <Text style={styles.titulo}>Informações do Aluno</Text>
-                    <Text>{this.state.nomeAluno} </Text>
-                    <Text>Turma: {this.state.turmaAluno} </Text>
-                    <Text>{this.state.cursoAluno} </Text>
-                    <Text>CPF: {this.state.cpfAluno} </Text>
+                    <Text style={styles.titulo}>Minhas Informações</Text>
+                    <View style={styles.infos}>
+                        <Text style={styles.textInfosProfile}>{this.state.nomeAluno}</Text>
+                        <Text style={styles.textInfosProfile}>{this.state.turmaAluno} </Text>
+                        <Text style={styles.textInfosProfile}>{this.state.cursoAluno} </Text>
+                        <Text style={styles.textInfosProfile}>CPF: {this.state.cpfAluno} </Text>
+                    </View>
                 </View>
                 
 
@@ -85,21 +87,44 @@ class Profile extends Component {
 
 const styles = StyleSheet.create({
     titulo: {
-        fontSize: 40,
+        fontSize: 35,
         color: '#FF7979',
         letterSpacing: 2,
         fontWeight: '700',
-        marginTop: '20%',
-        textAlign: 'center'
+        textAlign: 'center',
+        textTransform: 'uppercase'
     },
     informacoesAluno: {
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: '#e9e909',
-        width: '80%'
+        alignItems: "center",
+        justifyContent: 'space-around',
+        backgroundColor: '#fff',
+        width: '90%',
+        marginTop: '20%',
+        height: '50%',
+        shadowOffset: {
+            width: 0,
+            height: 12,
+        },
+        shadowOpacity: 0.58,
+        shadowRadius: 16.00,
+        elevation: 24,
+    },
+    infos:{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: "center",
+        padding: 5,
+    },
+    textInfosProfile:{
+        fontSize: 12,
+        textTransform: 'uppercase'
     },
     botaoSair: {
-        width: 50
+        width: 50,
+        alignSelf: 'flex-end',
+        marginTop: '1%'
     }
 });
 
